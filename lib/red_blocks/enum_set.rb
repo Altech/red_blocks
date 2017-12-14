@@ -4,7 +4,7 @@ module RedBlocks
 
     def initialize(value)
       unless self.class.available_values.include?(value)
-        raise RedBlocks::OutOfDomainError.new(value, self.class.available_values)
+        raise RedBlocks::DomainError.new(value, self.class.available_values)
       end
       @value = value
     end
