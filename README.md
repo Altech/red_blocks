@@ -1,4 +1,4 @@
-# RedBlocks
+# RedBlocks [![Build Status](https://travis-ci.org/Altech/red_blocks.svg?branch=master)](https://travis-ci.org/Altech/red_blocks)
 
 ## What is this?
 
