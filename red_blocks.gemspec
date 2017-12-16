@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
   end
   spec.require_paths = ["lib"]
 
+  spec.required_ruby_version = '>= 2.3.0'
+
   spec.add_dependency "redis", "~> 3.3"
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"
