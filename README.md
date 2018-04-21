@@ -54,4 +54,4 @@ gem 'red_blocks'
 
 TODO: document
 
-The latter half of the [slide](https://speakerdeck.com/altech/redblocks) describes the classes of RedBlocks (in japanese).
+[This entry](http://takenos.link/post/173086712782/redis-sorted-set-in-oop) describes the usage of RedBlocks (in japanese).
