@@ -8,7 +8,7 @@ module RedBlocks
       end
 
       @value = value
-      @suffix = Digest::SHA2.hexdigest value.join(",")
+      @suffix = Digest::SHA2.hexdigest value.sort.uniq.join(",")
     end
 
     def cache_time
