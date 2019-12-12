@@ -2,15 +2,13 @@ module RedBlocks
   class InstantSet < RedBlocks::Set
     attr_reader :value, :suffix
 
-    RAND_MAX = 100_000_000
-
     def initialize(value)
       unless value.is_a?(Array)
         raise TypeError.new("Expect value as Array, but got #{ids_or_ids_with_scores.class}")
       end
 
       @value = value
-      @suffix = rand(RAND_MAX)
+      @suffix = Digest::SHA2.hexdigest value.sort.uniq.join(",")
     end
 
     def cache_time
