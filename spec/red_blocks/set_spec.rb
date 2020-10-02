@@ -1,18 +1,6 @@
 require "spec_helper"
 
 describe RedBlocks::Set do
-  describe '#get' do
-    it 'is not implemented' do
-      expect { RedBlocks::Set.new.get }.to raise_error(NotImplementedError)
-    end
-  end
-
-  describe '#key_suffix' do
-    it 'is not implemented' do
-      expect { RedBlocks::Set.new.send(:key_suffix) }.to raise_error(NotImplementedError)
-    end
-  end
-
   let(:set_subclass) {
     Class.new(RedBlocks::Set) do
       def key_suffix
@@ -30,8 +18,19 @@ describe RedBlocks::Set do
     RedBlocks.client.del(set.key)
   end
 
-  describe '#update!' do
+  describe '#get' do
+    it 'is not implemented' do
+      expect { RedBlocks::Set.new.get }.to raise_error(NotImplementedError)
+    end
+  end
 
+  describe '#key_suffix' do
+    it 'is not implemented' do
+      expect { RedBlocks::Set.new.send(:key_suffix) }.to raise_error(NotImplementedError)
+    end
+  end
+
+  describe '#update!' do
     it 'stores ids without scores' do
       get_result = [1,2,3]
       allow(set).to receive(:get).and_return(get_result)
@@ -151,7 +150,31 @@ describe RedBlocks::Set do
     end
   end
 
-  describe '#key'
+  describe '#key' do
+    it 'returns joined string' do
+      expect(set.key).to eq("RBTEST:TestSet:unit")
+    end
+
+    context "with array suffix" do
+      let(:set_subclass) {
+        Class.new(RedBlocks::Set) do
+          def key_suffix
+            [1, 2 ,3]
+          end
+        end
+      }
+
+      it 'returns joined string' do
+        expect(set.key).to eq("RBTEST:TestSet:[1, 2, 3]")
+      end
+    end
+  end
+
+  describe '.key_pattern' do
+    it 'returns joined string' do
+      expect(set_subclass.key_pattern).to eq("RBTEST:TestSet:*")
+    end
+  end
 
   describe '#weight'
 end

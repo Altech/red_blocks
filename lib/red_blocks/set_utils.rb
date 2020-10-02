@@ -22,7 +22,9 @@ module RedBlocks
       end
     end
 
-    def joined_key(*args); self.class.joined_key(*args) end
+    def joined_key(array, **args)
+      self.class.joined_key(array, **args)
+    end
 
     def normalize_entries(entries)
       blank_entry = [-RedBlocks.config.infinity, RedBlocks.config.blank_id]
