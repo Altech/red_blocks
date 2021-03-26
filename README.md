@@ -54,4 +54,4 @@ gem 'red_blocks'
 
 TODO: document
 
-[This entry](http://takenos.link/post/173086712782/redis-sorted-set-in-oop) describes the usage of RedBlocks (in japanese).
+[This entry](https://qiita.com/Altech/items/db48e7906c90d542c732) describes the usage of RedBlocks (in japanese).
