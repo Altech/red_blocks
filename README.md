@@ -50,8 +50,4 @@ In general, there are some advantages by using RedBlocks.
 gem 'red_blocks'
 ```
 
-## Classes
-
-TODO: document
-
-[This entry](https://qiita.com/Altech/items/db48e7906c90d542c732) describes the usage of RedBlocks (in japanese).
+[This entry](https://qiita.com/Altech/items/db48e7906c90d542c732) and [this slide](http://speakerdeck.com/altech/object-oriented-abstraction-of-redis-sorted-set) describe the usage of RedBlocks (in japanese).
