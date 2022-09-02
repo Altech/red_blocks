@@ -27,8 +27,10 @@ module RedBlocks
 
     def update!
       disabled_sets.each(&:update!)
-      compose_sets!
-      RedBlocks.client.expire(key, expiration_time)
+      RedBlocks.client.pipelined do
+        compose_sets!
+        RedBlocks.client.expire(key, expiration_time)
+      end
     end
 
     def cache_time
