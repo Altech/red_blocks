@@ -6,10 +6,10 @@ module RedBlocks
     def update!(get_result = self.get)
       entries = normalize_entries(validate_entries!(get_result))
       removed_ids = self.ids(paginator: Paginator.all, update_if_disabled: false) - entries.map(&:last)
-      RedBlocks.client.pipelined do
-        RedBlocks.client.zrem(key, removed_ids) if removed_ids.size > 0
-        RedBlocks.client.zadd(key, entries)
-        RedBlocks.client.expire(key, expiration_time)
+      RedBlocks.client.pipelined do |pipeline|
+        pipeline.zrem(key, removed_ids) if removed_ids.size > 0
+        pipeline.zadd(key, entries)
+        pipeline.expire(key, expiration_time)
       end
       nil
     end

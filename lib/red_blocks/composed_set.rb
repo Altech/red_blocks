@@ -27,9 +27,9 @@ module RedBlocks
 
     def update!
       disabled_sets.each(&:update!)
-      RedBlocks.client.pipelined do
+      RedBlocks.client.pipelined do |pipeline|
         compose_sets!
-        RedBlocks.client.expire(key, expiration_time)
+        pipeline.expire(key, expiration_time)
       end
     end
 
@@ -48,8 +48,8 @@ module RedBlocks
     end
 
     def disabled_sets
-      ttls = RedBlocks.client.pipelined do
-        @sets.each { |set| RedBlocks.client.ttl(set.key) }
+      ttls = RedBlocks.client.pipelined do |pipeline|
+        @sets.each { |set| pipeline.ttl(set.key) }
       end
       @sets.zip(ttls).select do |set, ttl|
         set.disabled?(ttl)

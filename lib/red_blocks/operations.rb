@@ -3,9 +3,9 @@
 module RedBlocks::Operations
   def self.delete(set_or_pattern)
     keys = self.keys(set_or_pattern)
-    RedBlocks.client.pipelined do
+    RedBlocks.client.pipelined do |pipeline|
       keys.each do |key|
-        RedBlocks.client.del(key)
+        pipeline.del(key)
       end
     end
   end

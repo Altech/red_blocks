@@ -40,8 +40,8 @@ module RedBlocks
     private
 
     def disabled_sets
-      ttls = RedBlocks.client.pipelined do
-        sets.each { |set| RedBlocks.client.ttl(set.key) }
+      ttls = RedBlocks.client.pipelined do |pipeline|
+        sets.each { |set| pipeline.ttl(set.key) }
       end
       sets.zip(ttls).select do |set, ttl|
         set.disabled?(ttl)
