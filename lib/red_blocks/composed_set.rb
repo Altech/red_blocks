@@ -28,7 +28,7 @@ module RedBlocks
     def update!
       disabled_sets.each(&:update!)
       RedBlocks.client.pipelined do |pipeline|
-        compose_sets!
+        compose_sets!(pipeline)
         pipeline.expire(key, expiration_time)
       end
     end
@@ -43,7 +43,7 @@ module RedBlocks
 
     private
 
-    def compose_sets!
+    def compose_sets!(pipeline)
       raise NotImplementedError
     end
 
