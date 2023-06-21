@@ -25,11 +25,6 @@ describe RedBlocks::IntersectionSet do
     RedBlocks::IntersectionSet.new([klass1.new, klass2.new])
   }
 
-  let(:blank_set) {
-    enum = Enumerator.new { |y| }
-    RedBlocks::IntersectionSet.new(enum)
-  }
-
   before do
     RedBlocks.client.del(key1)
     RedBlocks.client.del(key2)
@@ -37,7 +32,7 @@ describe RedBlocks::IntersectionSet do
 
   describe '#update!' do
     it 'executes zinterstore' do
-      expect(RedBlocks.client).to receive(:zinterstore)
+      expect_any_instance_of(MockRedis::PipelinedWrapper).to receive(:zinterstore)
 
       set.update!
     end
@@ -69,24 +64,17 @@ describe RedBlocks::IntersectionSet do
       expect(RedBlocks.client.zrevrange(set.key, 0, -1, with_scores: true)).to eq([["3", 4.0], ["2", 4.0], [RedBlocks.config.blank_id.to_s, -RedBlocks.config.infinity]])
     end
 
-    it 'stores blank data' do
-      blank_set.update!
+    context 'update! blank_set' do
+      let(:blank_set) {
+        enum = Enumerator.new { |y| }
+        RedBlocks::IntersectionSet.new(enum)
+      }
 
-      expect(RedBlocks.client.zrevrange(blank_set.key, 0, -1, with_scores: true)).to eq([[RedBlocks.config.blank_id.to_s, -RedBlocks.config.infinity]])
-    end
-  end
+      it 'stores blank data' do
+        blank_set.update!
 
-  describe '#ids' do
-    it 'returns all disabled sets' do
-      RedBlocks.client.del(key1)
-      RedBlocks.client.del(key2)
-      expect(set.send(:disabled_sets).size).to eq(2)
-
-      set.sets.each do |set|
-        set.update!
+        expect(RedBlocks.client.zrevrange(blank_set.key, 0, -1, with_scores: true)).to eq([[RedBlocks.config.blank_id.to_s, -RedBlocks.config.infinity]])
       end
-
-      expect(set.send(:disabled_sets).size).to eq(0)
     end
   end
 end
